@@ -47,6 +47,8 @@ public partial class Form2 : Form
     private void GridPaint(object sender, PaintEventArgs e) {
             Graphics g = e.Graphics;  
             SolidBrush green = new SolidBrush(Color.LightGreen);
+            SolidBrush black = new SolidBrush(Color.Black);
+            Font tt = new Font("Verdana", 14);
             int newx;
             int newy;
             for (int x = 0; x < this.w/this.space; x += 1) { 
@@ -54,7 +56,7 @@ public partial class Form2 : Form
                 for (int y = 0; y < h/this.space; y += 1) { 
                     newy = y * this.space;
                     g.FillRectangle(green, newx, newy, 50, 30);
-                    g.DrawString("" + alphabet[x] + alphabet[y], new Font("Verdana", 14), new SolidBrush(Color.Black), newx, newy);  
+                    g.DrawString("" + alphabet[x] + alphabet[y], tt, black, newx, newy);  
                 }
             }
     }
