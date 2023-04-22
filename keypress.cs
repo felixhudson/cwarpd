@@ -5,8 +5,6 @@ using System.IO;
 
 public partial class Form2 : Form
 {
-    private TextBox textBox1;
-    private TextBox textBox2;
     private int h;
     private int w;
     private char[] alphabet;
@@ -15,12 +13,6 @@ public partial class Form2 : Form
     private int second;
     public Form2()
     {
-        //InitializeComponent();
-        textBox1 = new TextBox();
-        textBox2 = new TextBox();
-        textBox2.Multiline = true;
-        textBox2.ScrollBars = ScrollBars.Both;
-        textBox2.Location =new Point(50,50);
 
         this.alphabet = new char[26];
         for (int i = 0; i < 26; i++) {
@@ -29,14 +21,6 @@ public partial class Form2 : Form
 
         this.space =80;
         this.first = -100;
-
-        //Setup events that listens on keypress
-        textBox1.KeyDown += TextBox1_KeyDown;
-        textBox1.KeyPress += TextBox1_KeyPress;
-        textBox1.KeyUp += TextBox1_KeyUp;
-
-        this.Controls.Add(textBox1);
-        this.Controls.Add(textBox2);
 
         // capture keypress 
         this.KeyPreview = true;
@@ -84,7 +68,7 @@ public partial class Form2 : Form
             // we have our second letter
             second = Array.IndexOf(alphabet, (char)e.KeyCode) * space;
             Console.WriteLine(new Point(first,second));
-            Cursor.Position = new Point(first,second);
+            Cursor.Position = new Point(first+ 15,second + 10);
             Application.Exit();
         }
         int pos = Array.IndexOf(alphabet, (char)e.KeyCode);
@@ -94,24 +78,6 @@ public partial class Form2 : Form
             // Exit the application
             Application.Exit();
         }
-    }
-
-    // Handle the KeyUp event to print the type of character entered into the control.
-    private void TextBox1_KeyUp(object sender, KeyEventArgs e)
-    {
-        textBox2.AppendText( "KeyUp code: {e.KeyCode}, value: {e.KeyValue}, modifiers: {e.Modifiers}" + "\r\n");
-    }
-
-    // Handle the KeyPress event to print the type of character entered into the control.
-    private void TextBox1_KeyPress(object sender, KeyPressEventArgs e)
-    {
-        textBox2.AppendText( "KeyPress keychar: {e.KeyChar}" + "\r\n");
-    }
-
-    // Handle the KeyDown event to print the type of character entered into the control.
-    private void TextBox1_KeyDown(object sender, KeyEventArgs e)
-    {
-        textBox2.AppendText( "KeyDown code: {e.KeyCode}, value: {e.KeyValue}, modifiers: {e.Modifiers}" + "\r\n");
     }
 
     public static void Main() {
