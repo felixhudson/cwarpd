@@ -9,6 +9,7 @@
             //set the backcolor and transparencykey on same color.
             this.BackColor = Color.LimeGreen;
             this.TransparencyKey = Color.LimeGreen;  
+            // remove window decoration
             this.ControlBox = false;
             this.Text = String.Empty;
         }  

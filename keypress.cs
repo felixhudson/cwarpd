@@ -7,6 +7,9 @@ public partial class Form2 : Form
 {
     private TextBox textBox1;
     private TextBox textBox2;
+    private int h;
+    private int w;
+    private char[] alphabet;
     public Form2()
     {
         //InitializeComponent();
@@ -15,6 +18,13 @@ public partial class Form2 : Form
         textBox2.Multiline = true;
         textBox2.ScrollBars = ScrollBars.Both;
         textBox2.Location =new Point(50,50);
+
+        this.alphabet = new char[26];
+        for (int i = 0; i < 26; i++) {
+                this.alphabet[i] = (char)('a' + i);
+        }
+
+
 
         //Setup events that listens on keypress
         textBox1.KeyDown += TextBox1_KeyDown;
@@ -26,16 +36,27 @@ public partial class Form2 : Form
 
         // capture keypress 
         this.KeyPreview = true;
-        this.KeyPress += FormKeypress;
+        this.KeyDown += FormKeypress;
         this.Paint += new PaintEventHandler(GridPaint);
-        
+        this.screensize();
+        Screen screen = Screen.PrimaryScreen;
+        this.h = screen.Bounds.Height;
+        this.w = screen.Bounds.Width;
+        this.Bounds = new Rectangle(0,0,screen.Bounds.Width,screen.Bounds.Height);
+        this.BackColor = Color.LimeGreen;
+        this.TransparencyKey = Color.LimeGreen;  
+    }
+
+    private void screensize(){
+        Screen screen = Screen.PrimaryScreen;
+        Console.WriteLine("Screen Resolution: " + screen.Bounds.Width + "x" + screen.Bounds.Height);
     }
 
     private void GridPaint(object sender, PaintEventArgs e) {
             Graphics g = e.Graphics;  
             SolidBrush green = new SolidBrush(Color.LightGreen);
-            for (int x = 10; x < 500; x += 100) { 
-                for (int y = 10; y < 500; y += 100) { 
+            for (int x = 10; x < this.w; x += 100) { 
+                for (int y = 10; y < h; y += 100) { 
                     g.FillRectangle(green, x, y, 50, 30);
                     g.DrawString("" + x + y, new Font("Verdana", 10), new SolidBrush(Color.Black), x, y);  
                 }
@@ -43,8 +64,14 @@ public partial class Form2 : Form
 
     }
 
-    private void FormKeypress(object sender, KeyPressEventArgs e) {
-        Console.Write("keypress " + e.KeyChar + "\r\n");
+    private void FormKeypress(object sender, KeyEventArgs e) {
+        Console.Write("keypress " + e.KeyCode + "\r\n");
+        // Check if the Escape key was pressed
+        if (e.KeyCode == Keys.Escape)
+        {
+            // Exit the application
+            Application.Exit();
+        }
     }
 
     // Handle the KeyUp event to print the type of character entered into the control.
