@@ -13,34 +13,36 @@ public partial class Form2 : Form
     private int second;
     public Form2()
     {
+        // change this to alter spacing
+        this.space =80;
 
+        // setup all keys
         this.alphabet = new char[26];
         for (int i = 0; i < 26; i++) {
                 this.alphabet[i] = (char)('A' + i);
         }
 
-        this.space =80;
         this.first = -100;
 
-        // capture keypress 
+        // capture keypress's in this window
         this.KeyPreview = true;
         this.KeyDown += FormKeypress;
         this.Paint += new PaintEventHandler(GridPaint);
-        this.screensize();
+        // find size of current window
         Screen screen = Screen.PrimaryScreen;
         this.h = screen.Bounds.Height;
         this.w = screen.Bounds.Width;
+        // move window to screen corner
         this.Bounds = new Rectangle(0,0,screen.Bounds.Width,screen.Bounds.Height);
+
+        // make window transparent
         this.BackColor = Color.LimeGreen;
         this.TransparencyKey = Color.LimeGreen;  
+        // remove window decorations
         this.ControlBox = false;
         this.Text = String.Empty;
     }
 
-    private void screensize(){
-        Screen screen = Screen.PrimaryScreen;
-        Console.WriteLine("Screen Resolution: " + screen.Bounds.Width + "x" + screen.Bounds.Height);
-    }
 
     private void GridPaint(object sender, PaintEventArgs e) {
             Graphics g = e.Graphics;  
@@ -55,24 +57,24 @@ public partial class Form2 : Form
                     g.DrawString("" + alphabet[x] + alphabet[y], new Font("Verdana", 14), new SolidBrush(Color.Black), newx, newy);  
                 }
             }
-
     }
 
     private void FormKeypress(object sender, KeyEventArgs e) {
-        Console.Write("keypress " + e.KeyCode + "\r\n");
-        // Check if the Escape key was pressed
+        // Console.Write("keypress " + e.KeyCode + "\r\n");
         if ( first < 0 ) {
             first = Array.IndexOf(alphabet, (char)e.KeyCode) * space;
 
         } else {
             // we have our second letter
             second = Array.IndexOf(alphabet, (char)e.KeyCode) * space;
-            Console.WriteLine(new Point(first,second));
+            // Console.WriteLine(new Point(first,second));
             Cursor.Position = new Point(first+ 15,second + 10);
             Application.Exit();
         }
         int pos = Array.IndexOf(alphabet, (char)e.KeyCode);
-        Console.WriteLine("pos" + pos);
+        //Console.WriteLine("pos" + pos);
+
+        // Check if the Escape key was pressed
         if (e.KeyCode == Keys.Escape)
         {
             // Exit the application
