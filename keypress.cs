@@ -10,6 +10,9 @@ public partial class Form2 : Form
     private int h;
     private int w;
     private char[] alphabet;
+    private int space;
+    private int first;
+    private int second;
     public Form2()
     {
         //InitializeComponent();
@@ -21,10 +24,11 @@ public partial class Form2 : Form
 
         this.alphabet = new char[26];
         for (int i = 0; i < 26; i++) {
-                this.alphabet[i] = (char)('a' + i);
+                this.alphabet[i] = (char)('A' + i);
         }
 
-
+        this.space =80;
+        this.first = -100;
 
         //Setup events that listens on keypress
         textBox1.KeyDown += TextBox1_KeyDown;
@@ -45,6 +49,8 @@ public partial class Form2 : Form
         this.Bounds = new Rectangle(0,0,screen.Bounds.Width,screen.Bounds.Height);
         this.BackColor = Color.LimeGreen;
         this.TransparencyKey = Color.LimeGreen;  
+        this.ControlBox = false;
+        this.Text = String.Empty;
     }
 
     private void screensize(){
@@ -55,10 +61,14 @@ public partial class Form2 : Form
     private void GridPaint(object sender, PaintEventArgs e) {
             Graphics g = e.Graphics;  
             SolidBrush green = new SolidBrush(Color.LightGreen);
-            for (int x = 10; x < this.w; x += 100) { 
-                for (int y = 10; y < h; y += 100) { 
-                    g.FillRectangle(green, x, y, 50, 30);
-                    g.DrawString("" + x + y, new Font("Verdana", 10), new SolidBrush(Color.Black), x, y);  
+            int newx;
+            int newy;
+            for (int x = 0; x < this.w/this.space; x += 1) { 
+                newx = x * this.space;
+                for (int y = 0; y < h/this.space; y += 1) { 
+                    newy = y * this.space;
+                    g.FillRectangle(green, newx, newy, 50, 30);
+                    g.DrawString("" + alphabet[x] + alphabet[y], new Font("Verdana", 14), new SolidBrush(Color.Black), newx, newy);  
                 }
             }
 
@@ -67,6 +77,18 @@ public partial class Form2 : Form
     private void FormKeypress(object sender, KeyEventArgs e) {
         Console.Write("keypress " + e.KeyCode + "\r\n");
         // Check if the Escape key was pressed
+        if ( first < 0 ) {
+            first = Array.IndexOf(alphabet, (char)e.KeyCode) * space;
+
+        } else {
+            // we have our second letter
+            second = Array.IndexOf(alphabet, (char)e.KeyCode) * space;
+            Console.WriteLine(new Point(first,second));
+            Cursor.Position = new Point(first,second);
+            Application.Exit();
+        }
+        int pos = Array.IndexOf(alphabet, (char)e.KeyCode);
+        Console.WriteLine("pos" + pos);
         if (e.KeyCode == Keys.Escape)
         {
             // Exit the application
