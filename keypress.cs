@@ -106,14 +106,14 @@ public partial class Form2 : Form
             first = Array.IndexOf(alphabet, (char)e.KeyCode);
             this.Refresh();
 
-        } else if (first > 0 & second < 0) {
+        } else if (first >= 0 & second < 0) {
             // we have our second letter
             second = Array.IndexOf(alphabet, (char)e.KeyCode);
             // Console.WriteLine(new Point(first,second));
             Cursor.Position = new Point(first * space + 15,second * space + 10);
             this.Refresh();
             // Application.Exit();
-        } else if (first > 0 & second > 0){
+        } else if (first >= 0 & second >= 0){
 
             if (e.KeyCode == Keys.Enter) {
                 this.WindowState = FormWindowState.Minimized;
